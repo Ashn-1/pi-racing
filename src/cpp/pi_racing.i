@@ -18,25 +18,10 @@
 // This is an interface file for automatic MATLAB wrapper generation.
 // See `wrap` for full documentation and more examples.
 
-#include <pi_racing/MinimumDistanceFactor.hpp>
 #include <pi_racing/MinimumSteeringAngleFactor.hpp>
 #include <pi_racing/RacetrackBoundingFactor.hpp>
 
 namespace pi_racing {
-
-/* MINIMUM DISTANCE FACTOR */
-virtual class MinimumDistanceFactor : gtsam::NoiseModelFactor {
-  MinimumDistanceFactor(
-      const gtsam::noiseModel::Base* model, 
-      size_t key1, 
-      size_t key2
-  );
-
-  gtsam::Vector evaluateError(
-      const gtsam::Vector& p1, 
-      const gtsam::Vector& p2
-  ) const;
-};
 
 /* MINIMUM STEERING ANGLE FACTOR */
 virtual class MinimumSteeringAngleFactor : gtsam::NoiseModelFactor {

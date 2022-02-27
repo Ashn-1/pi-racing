@@ -61,9 +61,7 @@ find_package(GTSAM REQUIRED) # Uses installed package
 # ##############################################################################
 # Build static library from common sources
 set(CONVENIENCE_LIB_NAME ${PROJECT_NAME})
-add_library(${CONVENIENCE_LIB_NAME} SHARED 
-  pi_racing/MinimumDistanceFactor.hpp
-  pi_racing/MinimumDistanceFactor.cpp
+add_library(${CONVENIENCE_LIB_NAME} SHARED
   pi_racing/RacetrackBoundingFactor.hpp
   pi_racing/RacetrackBoundingFactor.cpp
   pi_racing/MinimumSteeringAngleFactor.hpp
