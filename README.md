@@ -43,3 +43,22 @@ sudo make install
 - Start the script by opening the *src* directory in Matlab and running the *pi_min_curv.m* script to see the optimization for the Berlin 2018 ePrix circuit
 - Change the *track_file* variable to "modena_2019.csv" to see the results with comparison for the Modena racetrack
 - The script expects the GTSAM matlab library to be in the directory */usr/local/gtsam_toolbox/*
+
+### Citation
+
+```
+@article{pi-racing,
+  author    = {Salman Bari and
+               Ahmad Schoha Haidari and
+               Dirk Wollherr},
+  title     = {A Fast Approach to Minimum Curvature Raceline Planning via Probabilistic
+               Inference},
+  journal   = {CoRR},
+  volume    = {abs/2203.03224},
+  year      = {2022},
+  url       = {https://arxiv.org/abs/2203.03224},
+  eprinttype = {arXiv},
+  eprint    = {2203.03224},
+  timestamp = {Thu, 10 Mar 2022 14:39:36 +0100}
+}
+```
