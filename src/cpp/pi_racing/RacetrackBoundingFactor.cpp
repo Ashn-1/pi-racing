@@ -40,7 +40,7 @@ namespace pi_racing {
         // Compute nearest point on the finite line
         gtsam::Vector2 pointOnLine = m_leftBoundary + m_heading * length;
 
-        // Correct Jacobian
+        // Compute the Jacobians depending on the case (inbounds or outbounds)
         if (H1) {
             if (isOutOfBounds) {
                 (*H1) = (gtsam::Matrix(2, 2) << -1.0, 0.0, 0.0, -1.0).finished();
@@ -54,13 +54,7 @@ namespace pi_racing {
                     xy_heading, y_heading_sq - 1
                 ).finished();
             }
-        }
-
-        // Original 'wrong' Jacobians with good results
-        /*if (H1) {
-            (*H1) = (gtsam::Matrix(2, 2) << -1.0, 0.0, 0.0, -1.0).finished();
-        }*/
-        
+        }        
 
         gtsam::Vector error = gtsam::Vector2(
             pointOnLine.x() - p1.x(), 

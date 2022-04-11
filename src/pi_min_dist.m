@@ -35,23 +35,9 @@ track_file = "berlin_2018.csv";
 
 % Factor cost values
 bounding_sigma = 1;
-min_angle_diff_sigma = 6e-3;
-if track_file == "modena_2019.csv"
-    min_angle_diff_sigma = 2e-3;
-end
+min_angle_diff_sigma = 5e-1;
 
-% Comparison of results is currently only available for the Berlin 2018 and
-% the Modena 2019 tracks
 compare_results = false;
-if track_file == "berlin_2018.csv"
-    comparison_file_1 = "res/min_curv_results_berlin.csv";
-    comparison_file_2 = "res/min_curv_iqp_results_berlin.csv";
-    compare_results = true;
-elseif track_file == "modena_2019.csv"
-    comparison_file_1 = "res/min_curv_results_modena.csv";
-    comparison_file_2 = "res/min_curv_iqp_results_modena.csv";
-    compare_results = true;
-end
 
 %% Load dataset
 t_loading = tic;
@@ -128,7 +114,7 @@ fixed_point_model = noiseModel.Gaussian.Covariance(eye(2) * 0.0001);
 
 disp("Finished applying settings");
 
-[init_values, graph] = build_graph(...
+[init_values, graph] = build_graph_min_dist(...
     centerline,...
     bound_cost_start_left,...
     bound_cost_start_right,...
@@ -178,17 +164,6 @@ disp("Finished post processing");
 
 t_plotting = tic;
 
-% Load results from MinCurv paper
-if compare_results
-    result_other = readtable(comparison_file_1);
-    result_pos_other = [result_other{:, "x_m"}, result_other{:, "y_m"}];
-    writematrix(result_pos_other, "output/optimization_based.csv");
-    
-    result_other = readtable(comparison_file_2);
-    result_pos_other_iqp = [result_other{:, "x_m"}, result_other{:, "y_m"}];
-    writematrix(result_pos_other_iqp, "output/optimization_based_iqp.csv");
-end
-
 % Save results to file
 disp("Exporting results");
 writematrix(result_pos, "output/pi_results.csv");
@@ -223,20 +198,12 @@ hold on;
 title("Optimized results - Minimum Curvature");
 xlabel("x [m]");
 ylabel("y [m]");
-%plot(centerline(:, 1), centerline(:, 2), "b-", "LineWidth", 2);
-if compare_results
-    plot(result_pos_other(:, 1), result_pos_other(:, 2), "c-", "LineWidth", 2);
-    plot(result_pos_other_iqp(:, 1), result_pos_other_iqp(:, 2), "b-", "LineWidth", 2);
-end
+plot(centerline(:, 1), centerline(:, 2), "b-", "LineWidth", 2);
 plot(result_pos(:, 1), result_pos(:, 2), "r-", "LineWidth", 2);
 plot(og_bounds_right(:, 1), og_bounds_right(:, 2), "k-", "LineWidth", 2);
 plot(result_pos(states_outbounds, 1), result_pos(states_outbounds, 2), "mo", "LineWidth", 2);
 plot(og_bounds_left(:, 1), og_bounds_left(:, 2), "k-", "LineWidth", 2);
-if compare_results
-    legend("HWH+20", "HWH+20 - iterative QP", "Probabilistic Inference", "Track Boundaries");
-else
-    legend("Centerline", "Optimized Trajectory", "Track Boundaries");
-end
+legend("Centerline", "Shortest Path", "Track Boundaries");
 
 t_plotting = toc(t_plotting);
 t_total = toc(t_total);
